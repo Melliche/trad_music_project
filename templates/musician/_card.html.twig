@@ -1,0 +1,18 @@
+<article class="card">
+    <a href="{{ path('musician_detail', {'id': musician.id}) }}">
+        <img src="{{ asset('uploads/' ~ musician.image) }}" alt="{{ musician.fullName }}">
+    </a>
+    <h3>{{ musician.fullName }}</h3>
+    <ul class="badge-list">
+        {% for instrument in musician.instruments %}
+            <li>
+                <a href="{{ path('app_instrument_show', {'id': instrument.id}) }}" class="badge badge-primary">
+                    {% if instrument.icon %}
+                        <i class="{{ instrument.icon }}"></i>
+                    {% endif %}
+                    {{ instrument.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</article>
