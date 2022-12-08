@@ -16,6 +16,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.2.1",
         "aos": "^2.3.4",
+        "encore": "^0.0.30-beta",
         "normalize.css": "^8.0.1"
     },
     "license": "UNLICENSED",
