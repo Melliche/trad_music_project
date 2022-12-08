@@ -2,6 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -15,16 +17,40 @@
     </head>
     <body>
 
-        <header>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="{{ path('homepage') }}">Home</a>
-                    </li>
-                </ul>
-            </nav>
+        <header class="site-header">
+            <div class="container">
+                <nav class="navbar">
+                    <ul>
+                        <li><a href="{{ path('homepage') }}">Home</a></li>
+                        <li><a href="{{ path('musician_list') }}">Musicians</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                    <ul>
+                        {# Si l'utilisateur est connecté #}
+                        {% if app.user %}
+                            <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ path('app_login') }}">Connection</a></li>
+                            <li><a href="{{ path('app_register') }}">Register</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
         </header>
 
-        {% block body %}{% endblock %}
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <p>Trad Music &copy; 2022</p>
+
+                {# Faire appel à la méthode listInstruments du controller InstrumentController pour afficher la liste des instruments #}
+                {{ render(controller('App\\Controller\\InstrumentController::listInstruments')) }}
+
+            </div>
+        </footer>
     </body>
 </html>

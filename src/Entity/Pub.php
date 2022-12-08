@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PubRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Pub
 {
     #[ORM\Id]
@@ -29,6 +30,9 @@ class Pub
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $city = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'pub', targetEntity: Gig::class, orphanRemoval: true)]
     private Collection $gigs;
@@ -107,6 +111,18 @@ class Pub
         return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Gig>
      */
@@ -147,5 +163,15 @@ class Pub
         $this->manager = $manager;
 
         return $this;
+    }
+
+    /**
+     * Méthode qui sera appelée automatiquement par Doctrine avant l'enregistrement d'un pub
+     * @return void
+     */
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        $this->setCreatedAt(new \DateTimeImmutable());
     }
 }
