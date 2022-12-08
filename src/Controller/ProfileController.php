@@ -2,17 +2,28 @@
 
 namespace App\Controller;
 
+use App\Repository\MusicianRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileController extends AbstractController
 {
-    #[Route('/profile', name: 'app_profile')]
-    public function index(): Response
+    #[Route('/profil/{id}', name: 'app_profile',requirements: ['id' => '\d+'])]
+    public function profile(int $id,MusicianRepository $musicianRepository): Response
     {
+        $musician = $musicianRepository->find($id);
+
         return $this->render('profile/index.html.twig', [
-            'controller_name' => 'ProfileController',
+            'musician' => $musician,
+
         ]);
+
+
+
+
+
+
+
     }
 }

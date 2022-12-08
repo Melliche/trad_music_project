@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Your profile{% endblock %}
 
 {% block body %}
 <style>
@@ -9,12 +9,11 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>Your profile ✅</h1>
+    {% include 'musician/_card.html.twig' with {'musician': musician} only %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/POO/trad_music_project/src/Controller/ProfileController.php'|file_link(0) }}">src/Controller/ProfileController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/POO/trad_music_project/templates/profile/index.html.twig'|file_link(0) }}">templates/profile/index.html.twig</a></code></li>
-    </ul>
+    <img src="{{ asset('uploads/' ~ musician.image) }}" alt="">
+
+
 </div>
 {% endblock %}
