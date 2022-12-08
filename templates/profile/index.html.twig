@@ -13,7 +13,14 @@
     {% include 'musician/_card.html.twig' with {'musician': musician} only %}
 
     <img src="{{ asset('uploads/' ~ musician.image) }}" alt="">
+    {{ form_start(profileForm) }}
+        {{ form_row(profileForm.image)}}
+    {{ form_end(profileForm) }}
+
+
+
 
 
 </div>
 {% endblock %}
+
