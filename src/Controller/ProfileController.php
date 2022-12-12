@@ -18,45 +18,27 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ProfileController extends AbstractController
 {
 
-    #[Route('/profil/{id}', name: 'app_profile',requirements: ['id' => '\d+'])]
-    public function profile(int $id,MusicianRepository $musicianRepository,FileUploader $uploader,\Symfony\Component\HttpFoundation\Request $request,EntityManagerInterface $entityManager,
-    ): Response
+    #[Route('/profil/{id}', name: 'app_profile', requirements: ['id' => '\d+'])]
+    public function profile(int $id, MusicianRepository $musicianRepository): Response
     {
-        $form = $this->createForm(ProfileFormType::class, $musicianRepository->find($id));
-        $form->handleRequest($request);
-        $musician = $musicianRepository->find($id);
+
+        {
+
+            $musician = $musicianRepository->find($id);
 
 
-        // Uploader l'image
-        $image = $form->get('image')->getData();
-        if ($image) {
-            $fileName = $uploader->upload($image);
-            $musician->setImage($fileName);
+            // Si le musicien n'existe pas en base de données on retourne une erreur 404
+            if ($musician === null) {
+                throw $this->createNotFoundException();
+            }
+
+            return $this->render('profile/index.html.twig', ['musician' => $musician]);
+
+
         }
-        $entityManager->persist($musician);
-        $entityManager->flush();
-
-
-
-
-
-
-
-
-        return $this->render('profile/index.html.twig', [
-            'musician' => $musician,
-            'profileForm' => $form->createView(),
-
-        ]);
-
-
-
-
-
-
     }
-
-
-
-
 }
+
+
+
+

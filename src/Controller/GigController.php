@@ -25,50 +25,52 @@ class GigController extends AbstractController
             'gig' => $gig,
         ]);
     }
-    #[Route('/gig/addMusician/{id}', name: 'app_add_musician')]
+    #[Route('/gig/addMusician/{id}/{gigInstrumentId}', name: 'app_add_musician')]
     public function addMusician(
         int $id,
+        int $gigInstrumentId,
         GigRepository $gigRepository,
         UserInterface $user,
         MusicianRepository $musicianRepository,
         EntityManagerInterface $entityManager,
         ParticipantRepository $participantRepository,
+        InstrumentRepository $instrumentRepository,
     ): Response
     {
-
         $musician = $musicianRepository->findOneBy(['email'=> $user->getUserIdentifier()]);
         $gig = $gigRepository->find($id);
+        $gigInstrument = $instrumentRepository->find($gigInstrumentId);
         $checkInstrument = false;
         $matchedInstrument = "";
-        $matchedInstrumentId = null;
-        $gigParticipants = $gig->getParticipants();
-        foreach ($gigParticipants as $participant) {
-            $musicianInstruments = $musician->getInstruments();
-            foreach ($musicianInstruments as $mInstrument) {
-                if ($mInstrument->getName() === $participant->getInstrument()->getName()) {
-                    $checkInstrument = true;
-                    $matchedInstrumentId = $mInstrument->getId();
-                    $matchedInstrument = $mInstrument;
-                }
+        $musicianInstruments = $musician->getInstruments();
+        foreach ($musicianInstruments as $mInstrument) {
+            if ($gigInstrument && $mInstrument->getName() === $gigInstrument->getName()) {
+                $checkInstrument = true;
+                $matchedInstrument = $mInstrument;
+                break;
             }
+            $checkInstrument = false;
+            $matchedInstrument = "";
         }
 
-        if ($checkInstrument && $matchedInstrument && $matchedInstrumentId) {
+        if ($checkInstrument && $matchedInstrument) {
             //checker si le current user possède l'instrument requis par le gig
-            $participant = $participantRepository->findBy([ Gig::class => $gig, InstrumentRepository::class => $matchedInstrument]);
-            $participant->setMusician($musician);
-            var_dump($musician->getId());
-            $participant->setInstrument($matchedInstrument);
-            $participant->setGig($gig);
+            $participant = $participantRepository->findOneBy([ 'gig' => $gig, 'instrument' => $matchedInstrument]);
 
-            $entityManager->persist($participant);
-            $entityManager->flush();
+            if ($participant) {
+                $participant->setMusician($musician);
+                $entityManager->flush();
+            }
+            //$entityManager->persist($participant); object déjà en db
+
+            return $this->render('gig/addMusician.html.twig', [
+                'gig' => $gig,
+                'user' => $user,
+                'musician' => $musician,
+                'gigInstrument' => $gigInstrument,
+            ]);
         }
-        return $this->render('gig/addMusician.html.twig', [
-            'gig' => $gig,
-            'user' => $user,
-            'musician' => $musician,
-        ]);
+        return $this->redirectToRoute('homepage');
     }
     /*public function checkMusicianGotGigsInstrument(Gig $gig, Musician $musician): bool
     {

@@ -13,9 +13,7 @@
     {% include 'musician/_card.html.twig' with {'musician': musician} only %}
 
     <img src="{{ asset('uploads/' ~ musician.image) }}" alt="">
-    {{ form_start(profileForm) }}
-        {{ form_row(profileForm.image)}}
-    {{ form_end(profileForm) }}
+    <button class="btn btn-primary"><a href="{{path('modify_profile')}}">Edit</a></button>
 
 
 
