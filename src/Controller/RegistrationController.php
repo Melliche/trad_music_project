@@ -41,6 +41,7 @@ class RegistrationController extends AbstractController
             if ($image) {
                 $fileName = $fileUploader->upload($image);
                 $user->setImage($fileName);
+
             }
 
             $entityManager->persist($user);
@@ -50,7 +51,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('profile/index.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
