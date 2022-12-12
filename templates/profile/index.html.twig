@@ -13,7 +13,12 @@
     {% include 'musician/_card.html.twig' with {'musician': musician} only %}
 
     <img src="{{ asset('uploads/' ~ musician.image) }}" alt="">
+    <button class="btn btn-primary"><a href="{{path('modify_profile')}}">Edit</a></button>
+
+
+
 
 
 </div>
 {% endblock %}
+
