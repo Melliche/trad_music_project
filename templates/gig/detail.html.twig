@@ -6,7 +6,6 @@
     <section class="container">
         <h1>{{ gig.pub.name }} {{ gig.dateStart|date('Y-m-d') }}</h1>
         <img src="{{ asset('uploads/' ~ gig.pub.image) }}" alt="{{ gig.pub.name }}">
-        <a class="btn btn-primary" href="{{ path('app_add_musician', {'id': gig.id }) }}">Register Musician</a>
         <h2>Participants list</h2>
         <ul>
             {% for participant in gig.participants %}
@@ -17,6 +16,7 @@
                         {{ participant.musician.fullName }}
                     {% else %}
                         Aucun participant
+                        <a class="btn btn-primary" href="{{ path('app_add_musician', {'gigInstrumentId': participant.instrument.id, 'id': gig.id }) }}">Register Musician</a>
                     {% endif %}
                 </li>
             {% endfor %}
