@@ -22,6 +22,7 @@ class MusicianController extends AbstractController
     {
         $musician = $musicianRepository->find($id);
 
+
         // Si le musicien n'existe pas en base de données on retourne une erreur 404
         if ($musician === null) {
             throw $this->createNotFoundException();
