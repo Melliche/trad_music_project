@@ -54,6 +54,22 @@ class GigRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findFutureByPub(int $pubId, int $limit = 4) : array
+    {
+        return $this->createQueryBuilder('gig')
+            ->addSelect('pub')
+            ->join('gig.pub', 'pub') // INNER JOIN pub ON pub.id = gig.pub_id
+            ->where('pub.id = :pubId')
+            ->andWhere('gig.dateStart > :today')
+            ->orderBy('gig.dateStart', 'ASC')
+            ->setMaxResults($limit)
+            ->setParameter(':today', new \DateTime())
+            ->setParameter(':pubId', $pubId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Gig[] Returns an array of Gig objects
 //     */

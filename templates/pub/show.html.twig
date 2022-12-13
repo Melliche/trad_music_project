@@ -3,10 +3,12 @@
 {% block title %}Pub{% endblock %}
 
 {% block body %}
-    <h1>Pub</h1>
 
-    <table class="table">
-        <tbody>
+    <section class="container">
+        <h1>Pub</h1>
+
+        <table class="table">
+            <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ pub.id }}</td>
@@ -31,12 +33,34 @@
                 <th>City</th>
                 <td>{{ pub.city }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_pub_index') }}">back to list</a>
+        <a href="{{ path('app_pub_index') }}">back to list</a>
 
-    <a href="{{ path('app_pub_edit', {'id': pub.id}) }}">edit</a>
+        <a href="{{ path('app_pub_edit', {'id': pub.id}) }}">edit</a>
+        {{ include('pub/_delete_form.html.twig') }}
 
-    {{ include('pub/_delete_form.html.twig') }}
+    </section>
+
+
+    <section class="container">
+        <h2>Next gigs in {{ pub.name }}</h2>
+
+        <div class="grid">
+            {% for gig in gigs %}
+                <article class="card">
+                    <a href="{{ path('gig_detail', {'id': gig.id}) }}">
+                        <img src="{{ asset('uploads/' ~ gig.pub.image) }}" alt="{{ gig.pub.name }}">
+                    </a>
+                    <h3>{{ gig.pub.name }}</h3>
+                    <time datetime="{{ gig.dateStart|date('Y-m-d h:i') }}">
+                        {{ gig.dateStart|date('l jS \\o\\f F \\a\\t g:i a') }}
+                    </time>
+                    <a href="{{ path('gig_detail', {'id': gig.id}) }}" class="btn btn-primary">See more</a>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
 {% endblock %}

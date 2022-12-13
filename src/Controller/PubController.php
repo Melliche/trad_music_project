@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Pub;
 use App\Form\PubType;
+use App\Repository\GigRepository;
 use App\Repository\PubRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,10 +45,13 @@ class PubController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_pub_show', methods: ['GET'])]
-    public function show(Pub $pub): Response
+    public function show(Pub $pub, GigRepository $gigRepository): Response
     {
+        $gigs = $gigRepository->findFutureByPub($pub->getId());
+
         return $this->render('pub/show.html.twig', [
             'pub' => $pub,
+            'gigs' => $gigs
         ]);
     }
 

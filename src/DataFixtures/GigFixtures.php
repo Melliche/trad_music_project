@@ -33,10 +33,16 @@ class GigFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference('gig-3', $gig3);
 
         $gig4 = new Gig();
-        $gig4->setDateStart($today->modify('+1 day'));
-        $gig4->setPub($this->getReference('pub-mulligans'));
+        $gig4->setDateStart($today->modify('+3 day'));
+        $gig4->setPub($this->getReference('pub-templebar'));
         $manager->persist($gig4);
         $this->addReference('gig-4', $gig4);
+
+        $gig5 = new Gig();
+        $gig5->setDateStart($today->modify('+1 day'));
+        $gig5->setPub($this->getReference('pub-mulligans'));
+        $manager->persist($gig5);
+        $this->addReference('gig-5', $gig5);
 
         $manager->flush();
     }
