@@ -50,9 +50,6 @@
         <div class="grid">
             {% for gig in gigs %}
                 <article class="card">
-                    <a href="{{ path('gig_detail', {'id': gig.id}) }}">
-                        <img src="{{ asset('uploads/' ~ gig.pub.image) }}" alt="{{ gig.pub.name }}">
-                    </a>
                     <h3>{{ gig.pub.name }}</h3>
                     <time datetime="{{ gig.dateStart|date('Y-m-d h:i') }}">
                         {{ gig.dateStart|date('l jS \\o\\f F \\a\\t g:i a') }}
