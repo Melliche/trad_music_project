@@ -59,9 +59,10 @@ class GigController extends AbstractController
 
             if ($participant) {
                 $participant->setMusician($musician);
-                $entityManager->flush();
+                $entityManager->persist($participant);
             }
-            //$entityManager->persist($participant); object déjà en db
+            //$entityManager->flush(); //pas besoin de flusher ici car on flush dans le controller de la page de détail du gig
+
 
             return $this->render('gig/addMusician.html.twig', [
                 'gig' => $gig,
