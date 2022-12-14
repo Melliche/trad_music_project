@@ -3,14 +3,18 @@
 {% block title %} {{ gig.pub.name }}{% endblock %}
 
 {% block body %}
+    {% if app.session.flashBag.get('success') %}
+        {{ flashMessage }}
+    {% endif %}
     <section class="container">
-        <h3>Added new musician to {{ gig.pub.name }} !</h3>
         <h4>welcome {{ musician.fullName }}, You're now registered on {{ gig.pub.name }} Gig at {{ gig.pub.address }}
             {{ gig.dateStart|date('Y-m-d') }}</h4>
-        {% for instrument in musician.instruments %}
-            <h3>{{ instrument.name }}</h3>
-            <h3>{{ gigInstrument.name }}</h3>
-        {% endfor %}
+        <br>
+        <img src="{{ asset('uploads/' ~ musician.image) }}" alt="{{ musician.image }}">
+        <br>
+        {{ musician.email }}
+        <br>
+        {{ musician.fullName }}
     </section>
 
 {% endblock %}

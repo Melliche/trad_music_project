@@ -22,21 +22,8 @@ class ProfileController extends AbstractController
     #[Route('/profil', name: 'app_profile')]
     public function profile( MusicianRepository $musicianRepository,UserInterface $user): Response
     {
-
-        {
-
            $musician = $musicianRepository->findOneBy(['email'=> $user->getUserIdentifier()]);
-
-
-
-
-
-
-
-            return $this->render('profile/index.html.twig', ['musician' => $musician]);
-
-
-        }
+           return $this->render('profile/index.html.twig', ['musician' => $musician]);
     }
 }
 

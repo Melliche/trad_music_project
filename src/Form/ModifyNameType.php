@@ -19,8 +19,6 @@ class ModifyNameType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
-
             ->add('firstName',FileType::class,[
                 'label' => 'Prénom',
                 'required' => true,
@@ -32,12 +30,8 @@ class ModifyNameType extends AbstractType
 
             ])
             ->add('image', FileType::class, [
-                'mapped' => false,
-                'data_class' => null,
-                'required' => false,
                 'attr' => ['accept' => 'image/*']
             ])
-
 
             ->add('instruments', EntityType::class, [
                 'class' => Instrument::class,
@@ -52,8 +46,6 @@ class ModifyNameType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Musician::class,
-
-
         ]);
     }
 }

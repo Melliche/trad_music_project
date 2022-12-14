@@ -59,6 +59,7 @@ class GigController extends AbstractController
 
             if ($participant) {
                 $participant->setMusician($musician);
+                //$this->addFlash('success', $musician->getFullName() . ' has been added to' . $gig->getPub()->getName() . '!');
                 $entityManager->persist($participant);
             }
             //$entityManager->flush(); //pas besoin de flusher ici car on flush dans le controller de la page de détail du gig
