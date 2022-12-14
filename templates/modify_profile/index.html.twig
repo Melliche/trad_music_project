@@ -10,16 +10,16 @@
 
 <div class="example-wrapper">
     <h1>Modifer votre profile </h1>
-    {{ form_start(ModifyName) }}
+    {{ form_start(modifyForm) }}
 
-        {{ form_row(ModifyName.firstName) }}
-        {{ form_row(ModifyName.lastName) }}
-        {{ form_row(ModifyName.image) }}
-        {{ form_row(ModifyName.instruments) }}
+        {{ form_row(modifyForm.firstName) }}
+        {{ form_row(modifyForm.lastName) }}
+        {{ form_row(modifyForm.image) }}
+        {{ form_row(modifyForm.instruments) }}
 
 
     <button type="submit" class="btn btn-primary">Modifier</button>
-    {{ form_end(ModifyName) }}
+    {{ form_end(modifyForm) }}
 </div>
 
 {% endblock %}

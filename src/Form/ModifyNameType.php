@@ -21,16 +21,13 @@ class ModifyNameType extends AbstractType
         $builder
 
 
-            ->add('firstName',FileType::class,[
-                'label' => 'Prénom',
-                'required' => true,
+            ->add('firstName')
 
-            ])
-            ->add('lastName',FileType::class,[
-                'label' => 'Nom',
-                'required' => true,
 
-            ])
+            ->add('lastName')
+
+
+
             ->add('image', FileType::class, [
                 'mapped' => false,
                 'data_class' => null,

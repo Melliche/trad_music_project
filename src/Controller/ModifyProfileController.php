@@ -11,14 +11,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Musician;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ModifyProfileController extends AbstractController
 {
     #[Route('/modify_profile', name: 'modify_profile')]
-    public function modify(Request $request,FileUploader $fileUploader, MusicianRepository $musicianRepository,EntityManagerInterface $entityManager): Response
+    public function modify(Request $request,FileUploader $fileUploader, MusicianRepository $musicianRepository,EntityManagerInterface $entityManager,UserInterface $user): Response
     {
-        $user = $this->getUser();
-        $form = $this->createForm(ModifyNameType::class ,$user );
+        $musician = $musicianRepository->findOneBy(['email'=> $musicianRepository->getClassName()]);
+
+
+        $form = $this->createForm(ModifyNameType::class, $musician);
+
         $form->handleRequest($request);
          //Upload de l'image
         if ($form->isSubmitted() && $form->isValid()) {
